@@ -1,0 +1,22 @@
+[workspace]
+members = [
+    "to_do_list_api",
+    "to_do_list_common",
+]
+
+[package]
+name = "to_do_list"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+api = { path = "to_do_list_api" }
+
+tokio.workspace = true
+axum.workspace = true
+
+[workspace.dependencies]
+rusqlite = { version = "0.40.1", features = ["bundled"] }
+axum = "0.8.9"
+tokio = { version = "1.52.3", features = ["full"] }
+serde = { version = "1.0.228", features = ["derive"] }
