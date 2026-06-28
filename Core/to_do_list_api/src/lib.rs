@@ -1,2 +1,2 @@
-pub mod receiver;
-pub mod runner;
+pub mod commands;
+pub mod queries;

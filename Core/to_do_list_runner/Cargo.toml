@@ -1,9 +1,11 @@
 [package]
-name = "api"
+name = "runner"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+api = { path = "../to_do_list_api" }
 core = { path = "../to_do_list_core" }
 
 axum.workspace = true
+tokio.workspace = true

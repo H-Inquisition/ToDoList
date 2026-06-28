@@ -1,7 +1,8 @@
 [workspace]
 members = [
     "to_do_list_api",
-    "to_do_list_common",
+    "to_do_list_core",
+    "to_do_list_runner",
 ]
 
 [package]
@@ -10,13 +11,15 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-api = { path = "to_do_list_api" }
-
+# Local crates
+runner = { path = "to_do_list_runner"}
+# crates.io crates
 tokio.workspace = true
-axum.workspace = true
 
 [workspace.dependencies]
 rusqlite = { version = "0.40.1", features = ["bundled"] }
 axum = "0.8.9"
 tokio = { version = "1.52.3", features = ["full"] }
 serde = { version = "1.0.228", features = ["derive"] }
+strum = "0.28.0"
+strum_macros = "0.28.0"
