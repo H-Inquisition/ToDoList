@@ -16,7 +16,6 @@ impl Task {
 #[derive(Debug, Clone, strum_macros::Display, Deserialize, Serialize)]
 pub enum Status {
     Planned,
-    InProgress,
     Done,
 }
 

@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use crate::common::Task;
+use crate::common::{Priority, Status, Task};
 
 pub struct AppState {
     port: String,
@@ -22,14 +22,30 @@ impl AppState {
         self.tasks.iter().map(|(id, t)| format!("{}, {}, {}, {}", id, t.title, t.priority, t.status)).collect::<Vec<String>>().join("\n")
     }
 
-    pub fn add_task(&mut self, task: Task) {
+    pub fn add_task(&mut self, title: String, priority: Priority) {
         let id = self.get_free_id(0);
-        self.tasks.insert(id, task);
+        self.tasks.insert(id, Task {
+            status: Status::Planned,
+            title,
+            priority,
+        });
     }
 
-    pub fn update_task(&mut self, id: u32, task: Task) {
+    pub fn update_task_status(&mut self, id: u32, status: Status) {
         if let Some (old_task) = self.tasks.get_mut(&id) {
-            *old_task = task
+            old_task.status = status
+        }
+    }
+
+    pub fn update_task_title(&mut self, id: u32, title: String) {
+        if let Some (old_task) = self.tasks.get_mut(&id) {
+            old_task.title = title
+        }
+    }
+
+    pub fn update_task_priority(&mut self, id: u32, priority: Priority) {
+        if let Some (old_task) = self.tasks.get_mut(&id) {
+            old_task.priority = priority
         }
     }
     
