@@ -1,3 +1,3 @@
 pub mod commands;
-pub mod queries;
 mod error;
+pub mod queries;

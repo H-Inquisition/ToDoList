@@ -7,12 +7,6 @@ pub struct Task {
     pub priority: Priority,
 }
 
-impl Task {
-    pub fn to_database(&self) {
-
-    }
-}
-
 #[derive(Debug, Clone, strum_macros::Display, Deserialize, Serialize)]
 pub enum Status {
     Planned,

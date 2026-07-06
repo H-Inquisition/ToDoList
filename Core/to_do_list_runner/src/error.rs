@@ -2,10 +2,14 @@ use std::fmt::{Display, Formatter};
 
 #[derive(Debug, Clone)]
 pub enum Error {
+    // Local errors
     PortBinding(String),
     Runner(&'static str),
     OpenFile,
     WriteFile,
+
+    // Internal errors
+    Core(core::error::Error),
 }
 
 impl Display for Error {
@@ -15,7 +19,14 @@ impl Display for Error {
             Error::Runner(message) => write!(f, "Runner Error: {}", message),
             Error::OpenFile => write!(f, "Failed to open a file."),
             Error::WriteFile => write!(f, "Failed to write to a file."),
+            Error::Core(error) => write!(f, "Error in Core: {:?}", error),
         }
+    }
+}
+
+impl From<core::error::Error> for Error {
+    fn from(error: core::error::Error) -> Self {
+        Error::Core(error)
     }
 }
 

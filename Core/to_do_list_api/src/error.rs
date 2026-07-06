@@ -8,7 +8,10 @@ pub enum Error {
 impl IntoResponse for Error {
     fn into_response(self) -> Response {
         match self {
-            Error::MutexLockFailed(message) => Json(serde_json::json!({ "error": format!("MutexLockFailed: {}", message) })).into_response()
+            Error::MutexLockFailed(message) => {
+                Json(serde_json::json!({ "error": format!("MutexLockFailed: {}", message) }))
+                    .into_response()
+            }
         }
     }
 }

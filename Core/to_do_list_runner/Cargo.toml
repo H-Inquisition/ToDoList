@@ -4,8 +4,10 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-api = { path = "../to_do_list_api" }
-core = { path = "../to_do_list_core" }
+# Local crates
+api.workspace = true
+core.workspace = true
 
+# crates.io
 axum.workspace = true
 tokio.workspace = true

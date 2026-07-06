@@ -1,2 +1,2 @@
-pub mod app;
 mod error;
+pub mod handlers;
