@@ -18,5 +18,5 @@ pub async fn list_of_tasks_query(State(app_state): State<Arc<Mutex<AppState>>>) 
         .map_err(|_| {
             Error::MutexLockFailed("Failed to lock the AppState while querying the task list.")
         })?
-        .get_tasks())
+        .get_tasks()?)
 }

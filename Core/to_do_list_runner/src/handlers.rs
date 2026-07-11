@@ -17,20 +17,7 @@ pub async fn start_server(address: &str) -> Result<()> {
         .with_state(state.clone())
         .route("/create_task", post(api::commands::create_task_command))
         .with_state(state.clone())
-        .route(
-            "/update_task_status",
-            post(api::commands::update_task_status_command),
-        )
-        .with_state(state.clone())
-        .route(
-            "/update_task_title",
-            post(api::commands::update_task_title_command),
-        )
-        .with_state(state.clone())
-        .route(
-            "/update_task_priority",
-            post(api::commands::update_task_priority_command),
-        )
+        .route("/update_task", post(api::commands::update_task_command))
         .with_state(state.clone())
         .route("/delete_task", post(api::commands::delete_task_command))
         .with_state(state.clone());
