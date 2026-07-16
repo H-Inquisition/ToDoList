@@ -8,10 +8,10 @@ pub struct AppState {
 }
 
 impl AppState {
-    pub fn new(port: &str) -> Result<Self> {
+    pub fn new(address: &str, database_path: &str) -> Result<Self> {
         Ok(Self {
-            port: port.to_string(),
-            database_connection: DatabaseHandler::new()?,
+            port: address.to_string(),
+            database_connection: DatabaseHandler::new(database_path)?,
         })
     }
 
@@ -19,19 +19,20 @@ impl AppState {
         format!("Currently running on port: {}\n", self.port)
     }
 
-    pub fn get_tasks(&self) -> Result<String> {
-        self.database_connection.get_tasks_list()
+    pub fn get_tasks_as_vector(&self) -> Result<Vec<(i64, Task)>> {
+        self.database_connection.get_tasks_as_vector()
+    }
+
+    pub fn get_tasks_as_string(&self) -> Result<String> {
+        self.database_connection.get_tasks_as_string()
     }
 
     pub fn add_task(&mut self, title: String, priority: Priority) -> Result<()> {
-        self.database_connection.add_task(
-            0,
-            Task {
-                status: Status::Planned,
-                title,
-                priority,
-            },
-        )
+        self.database_connection.add_task(Task {
+            status: Status::Planned,
+            title,
+            priority,
+        })
     }
 
     pub fn update_task(&mut self, id: i64, task: Task) -> Result<()> {

@@ -13,7 +13,7 @@ pub async fn create_task_command(
     })?;
 
     state.add_task(title, priority)?;
-    Ok(state.get_tasks()?)
+    Ok(state.get_tasks_as_string()?)
 }
 
 pub async fn update_task_command(
@@ -31,7 +31,7 @@ pub async fn update_task_command(
             priority,
         },
     )?;
-    Ok(state.get_tasks()?)
+    Ok(state.get_tasks_as_string()?)
 }
 
 pub async fn delete_task_command(
@@ -42,5 +42,5 @@ pub async fn delete_task_command(
         Error::MutexLockFailed("Failed to lock the AppState while deleting a task.")
     })?;
     state.delete_task(id)?;
-    Ok(state.get_tasks()?)
+    Ok(state.get_tasks_as_string()?)
 }

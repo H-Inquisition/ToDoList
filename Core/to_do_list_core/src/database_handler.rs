@@ -7,19 +7,18 @@ pub struct DatabaseHandler {
 }
 
 impl DatabaseHandler {
-    pub fn new() -> Result<Self> {
-        let connection =
-            Connection::open("task_database.db").map_err(|_| Error::OpenDatabaseFailed)?;
+    pub fn new(database_path: &str) -> Result<Self> {
+        let connection = Connection::open(database_path).map_err(|_| Error::OpenDatabaseFailed)?;
         connection.execute("CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY, status TEXT NOT NULL CHECK (status IN ('Planned', 'Done')), title TEXT, priority TEXT NOT NULL CHECK (priority IN ('Low', 'Medium', 'High')))", []).map_err(|_| Error::ExecuteDatabaseCommandFailed("Failed to create the tasks table.".to_string()))?;
         Ok(DatabaseHandler { connection })
     }
 
     // Commands
-    pub fn add_task(&self, id: i64, task: Task) -> Result<()> {
+    pub fn add_task(&self, task: Task) -> Result<()> {
         self.connection
             .execute(
-                "INSERT INTO tasks (id, status, title, priority) VALUES (?1, ?2, ?3, ?4)",
-                (id, &task.status, &task.title, &task.priority),
+                "INSERT INTO tasks (status, title, priority) VALUES (?1, ?2, ?3)",
+                (&task.status, &task.title, &task.priority),
             )
             .map_err(|error| {
                 Error::ExecuteDatabaseCommandFailed(format!(
@@ -56,8 +55,39 @@ impl DatabaseHandler {
     }
 
     // Queries
-    pub fn get_tasks_list(&self) -> Result<String> {
+    pub fn get_tasks_as_vector(&self) -> Result<Vec<(i64, Task)>> {
+        Ok(self
+            .get_tasks()?
+            .iter()
+            .map(|(id, status, title, priority)| {
+                (
+                    *id,
+                    Task {
+                        status: status.clone(),
+                        title: title.clone(),
+                        priority: priority.clone(),
+                    },
+                )
+            })
+            .collect())
+    }
+    pub fn get_tasks_as_string(&self) -> Result<String> {
         let mut response = String::new();
+        let tasks = self.get_tasks()?;
+        tasks.iter().for_each(|(id, status, title, priority)| {
+            response.push_str(
+                format!(
+                    "id: {}, status: {}, title: {}, priority: {}\n",
+                    id, status, title, priority
+                )
+                .as_str(),
+            );
+        });
+        Ok(response)
+    }
+
+    fn get_tasks(&self) -> Result<Vec<(i64, Status, String, Priority)>> {
+        let mut response = Vec::new();
         let mut statement = self
             .connection
             .prepare("SELECT id, status, title, priority FROM tasks")
@@ -75,15 +105,10 @@ impl DatabaseHandler {
                 row.get::<_, Priority>(3)?,
             ))
         })?;
+
         for row in rows {
             let (id, status, title, priority) = row?;
-            response.push_str(
-                format!(
-                    "id: {}, status: {}, title: {}, priority: {}\n",
-                    id, status, title, priority
-                )
-                .as_str(),
-            );
+            response.push((id, status, title, priority));
         }
         Ok(response)
     }

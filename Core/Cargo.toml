@@ -2,6 +2,7 @@
 members = [
     "to_do_list_api",
     "to_do_list_core",
+    "to_do_list_integration_tests",
     "to_do_list_runner",
 ]
 
@@ -26,4 +27,5 @@ serde_json = "1.0.150"
 strum_macros = "0.28.0"
 api = { path = "to_do_list_api" }
 core = { path = "to_do_list_core" }
+integration_tests = { path = "to_do_list_integration_tests" }
 runner = { path = "to_do_list_runner" }

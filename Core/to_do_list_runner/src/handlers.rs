@@ -7,8 +7,8 @@ use std::io::Write;
 use std::sync::{Arc, Mutex};
 use tokio::net::TcpListener;
 
-pub async fn start_server(address: &str) -> Result<()> {
-    let state = Arc::new(Mutex::new(AppState::new(address)?));
+pub async fn start_server(address: &str, database_path: &str) -> Result<()> {
+    let state = Arc::new(Mutex::new(AppState::new(address, database_path)?));
 
     let router = Router::new()
         .route("/port", get(api::queries::port_query))

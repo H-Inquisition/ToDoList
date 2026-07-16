@@ -2,14 +2,14 @@ use rusqlite::ToSql;
 use rusqlite::types::{FromSql, FromSqlError, FromSqlResult, ToSqlOutput, ValueRef};
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Deserialize, Serialize)]
+#[derive(Debug, Clone, PartialEq, Deserialize, Serialize)]
 pub struct Task {
     pub status: Status,
     pub title: String,
     pub priority: Priority,
 }
 
-#[derive(Debug, Clone, strum_macros::Display, Deserialize, Serialize)]
+#[derive(Debug, Clone, PartialEq, strum_macros::Display, Deserialize, Serialize)]
 pub enum Status {
     Planned,
     Done,
@@ -35,7 +35,7 @@ impl ToSql for Status {
     }
 }
 
-#[derive(Debug, Clone, strum_macros::Display, Deserialize, Serialize)]
+#[derive(Debug, Clone, PartialEq, strum_macros::Display, Deserialize, Serialize)]
 pub enum Priority {
     Low,
     Medium,
