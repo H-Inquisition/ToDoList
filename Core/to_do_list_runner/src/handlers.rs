@@ -48,3 +48,77 @@ fn log_error(err: &Error) -> Result<()> {
         .map_err(|_| Error::OpenFile)?;
     writeln!(file, "{}", err).map_err(|_| Error::WriteFile)
 }
+
+#[cfg(test)]
+pub mod tests {
+    use core::app_state::AppState;
+    use core::common::Priority;
+
+    #[ignore]
+    #[test]
+    fn set_up_database_example() {
+        let mut app_state =
+            AppState::new("0.0.0.0:3000", "example_database.db").unwrap();
+
+        app_state
+            .add_task("test_task_one".to_string(), Priority::Medium)
+            .unwrap();
+        app_state
+            .add_task("test_task_two".to_string(), Priority::High)
+            .unwrap();
+        app_state
+            .add_task("test_task_three".to_string(), Priority::Medium)
+            .unwrap();
+        app_state
+            .add_task("test_task_four".to_string(), Priority::Low)
+            .unwrap();
+        app_state
+            .add_task("test_task_five".to_string(), Priority::Medium)
+            .unwrap();
+        app_state
+            .add_task("test_task_six".to_string(), Priority::Medium)
+            .unwrap();
+        app_state
+            .add_task("test_task_seven".to_string(), Priority::High)
+            .unwrap();
+        app_state
+            .add_task("test_task_eight".to_string(), Priority::Medium)
+            .unwrap();
+        app_state
+            .add_task("test_task_nine".to_string(), Priority::Low)
+            .unwrap();
+        app_state
+            .add_task("test_task_ten".to_string(), Priority::Medium)
+            .unwrap();
+        app_state
+            .add_task("test_task_eleven".to_string(), Priority::Medium)
+            .unwrap();
+        app_state
+            .add_task("test_task_twelve".to_string(), Priority::High)
+            .unwrap();
+        app_state
+            .add_task("test_task_thirteen".to_string(), Priority::Medium)
+            .unwrap();
+        app_state
+            .add_task("test_task_fourteen".to_string(), Priority::Low)
+            .unwrap();
+        app_state
+            .add_task("test_task_fifteen".to_string(), Priority::Medium)
+            .unwrap();
+        app_state
+            .add_task("test_task_sixteen".to_string(), Priority::Medium)
+            .unwrap();
+        app_state
+            .add_task("test_task_seventeen".to_string(), Priority::High)
+            .unwrap();
+        app_state
+            .add_task("test_task_eighteen".to_string(), Priority::Medium)
+            .unwrap();
+        app_state
+            .add_task("test_task_nineteen".to_string(), Priority::Low)
+            .unwrap();
+        app_state
+            .add_task("test_task_twenty".to_string(), Priority::Medium)
+            .unwrap();
+    }
+}
