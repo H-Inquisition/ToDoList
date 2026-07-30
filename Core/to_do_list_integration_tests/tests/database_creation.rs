@@ -28,13 +28,13 @@ fn create_default_database_set_a_delete_update() {
         .add_task("test_task_five".to_string(), Priority::Medium)
         .unwrap();
 
-    let actual_tasks_result = app_state.get_tasks_as_vector();
+    let actual_tasks_result = app_state.get_tasks();
     assert!(actual_tasks_result.is_ok());
     assert_eq!(actual_tasks_result.unwrap(), expected_sets::basic_expected_task_set());
 
     app_state.delete_task(3).unwrap();
 
-    let actual_tasks_result = app_state.get_tasks_as_vector();
+    let actual_tasks_result = app_state.get_tasks();
     assert!(actual_tasks_result.is_ok());
     assert_eq!(actual_tasks_result.unwrap(), second_expected_task_set);
 
@@ -44,7 +44,7 @@ fn create_default_database_set_a_delete_update() {
         priority: Priority::Low,
     }).unwrap();
 
-    let actual_tasks_result = app_state.get_tasks_as_vector();
+    let actual_tasks_result = app_state.get_tasks();
     assert!(actual_tasks_result.is_ok());
     assert_eq!(actual_tasks_result.unwrap(), third_expected_task_set);
     helpers::cleanup(constants::DATABASE_SET_A_FILENAME);
@@ -74,14 +74,14 @@ fn create_default_set_b_delete_update_multiple() {
         .add_task("test_task_five".to_string(), Priority::Medium)
         .unwrap();
 
-    let actual_tasks_result = app_state.get_tasks_as_vector();
+    let actual_tasks_result = app_state.get_tasks();
     assert!(actual_tasks_result.is_ok());
     assert_eq!(actual_tasks_result.unwrap(), expected_sets::basic_expected_task_set());
 
     app_state.delete_task(3).unwrap();
     app_state.delete_task(4).unwrap();
 
-    let actual_tasks_result = app_state.get_tasks_as_vector();
+    let actual_tasks_result = app_state.get_tasks();
     assert!(actual_tasks_result.is_ok());
     assert_eq!(actual_tasks_result.unwrap(), second_expected_task_set);
 
@@ -98,7 +98,7 @@ fn create_default_set_b_delete_update_multiple() {
         .add_task("test_task_nine".to_string(), Priority::Medium)
         .unwrap();
 
-    let actual_tasks_result = app_state.get_tasks_as_vector();
+    let actual_tasks_result = app_state.get_tasks();
     assert!(actual_tasks_result.is_ok());
     assert_eq!(actual_tasks_result.unwrap(), third_expected_task_set);
     helpers::cleanup(constants::DATABASE_SET_B_FILENAME);
@@ -128,13 +128,13 @@ fn create_database_set_c() {
         .add_task("test_task_five".to_string(), Priority::Medium)
         .unwrap();
 
-    let actual_tasks_result = app_state.get_tasks_as_vector();
+    let actual_tasks_result = app_state.get_tasks();
     assert!(actual_tasks_result.is_ok());
     assert_eq!(actual_tasks_result.unwrap(), expected_sets::basic_expected_task_set());
 
     app_state.delete_task(4).unwrap();
 
-    let actual_tasks_result = app_state.get_tasks_as_vector();
+    let actual_tasks_result = app_state.get_tasks();
     assert!(actual_tasks_result.is_ok());
     assert_eq!(actual_tasks_result.unwrap(), second_expected_task_set);
 
@@ -153,7 +153,7 @@ fn create_database_set_c() {
         .add_task("test_task_eight".to_string(), Priority::High)
         .unwrap();
 
-    let actual_tasks_result = app_state.get_tasks_as_vector();
+    let actual_tasks_result = app_state.get_tasks();
     assert!(actual_tasks_result.is_ok());
     assert_eq!(actual_tasks_result.unwrap(), third_expected_task_set);
     helpers::cleanup(constants::DATABASE_SET_C_FILENAME);

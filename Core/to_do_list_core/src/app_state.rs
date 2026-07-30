@@ -19,12 +19,8 @@ impl AppState {
         format!("Currently running on port: {}\n", self.port)
     }
 
-    pub fn get_tasks_as_vector(&self) -> Result<Vec<(i64, Task)>> {
+    pub fn get_tasks(&self) -> Result<Vec<(i64, Task)>> {
         self.database_connection.get_tasks_as_vector()
-    }
-
-    pub fn get_tasks_as_string(&self) -> Result<String> {
-        self.database_connection.get_tasks_as_string()
     }
 
     pub fn add_task(&mut self, title: String, priority: Priority) -> Result<()> {
