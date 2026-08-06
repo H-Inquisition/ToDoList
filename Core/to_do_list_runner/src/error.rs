@@ -7,6 +7,7 @@ pub enum Error {
     Runner(&'static str),
     OpenFile,
     WriteFile,
+    ReadLine(&'static str),
 
     // Internal errors
     Core(core::error::Error),
@@ -19,6 +20,7 @@ impl Display for Error {
             Error::Runner(message) => write!(f, "Runner Error: {}", message),
             Error::OpenFile => write!(f, "Failed to open a file."),
             Error::WriteFile => write!(f, "Failed to write to a file."),
+            Error::ReadLine(message) => write!(f, "Failed to receive the user's input: {}", message),
             Error::Core(error) => write!(f, "Error in Core: {:?}", error),
         }
     }

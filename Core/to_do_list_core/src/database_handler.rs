@@ -71,20 +71,6 @@ impl DatabaseHandler {
             })
             .collect())
     }
-    pub fn get_tasks_as_string(&self) -> Result<String> {
-        let mut response = String::new();
-        let tasks = self.get_tasks()?;
-        tasks.iter().for_each(|(id, status, title, priority)| {
-            response.push_str(
-                format!(
-                    "id: {}, status: {}, title: {}, priority: {}\n",
-                    id, status, title, priority
-                )
-                .as_str(),
-            );
-        });
-        Ok(response)
-    }
 
     fn get_tasks(&self) -> Result<Vec<(i64, Status, String, Priority)>> {
         let mut response = Vec::new();

@@ -3,20 +3,14 @@ use crate::database_handler::DatabaseHandler;
 use crate::error::*;
 
 pub struct AppState {
-    port: String,
     database_connection: DatabaseHandler,
 }
 
 impl AppState {
-    pub fn new(address: &str, database_path: &str) -> Result<Self> {
+    pub fn new(database_path: &str) -> Result<Self> {
         Ok(Self {
-            port: address.to_string(),
             database_connection: DatabaseHandler::new(database_path)?,
         })
-    }
-
-    pub fn get_port(&self) -> String {
-        format!("Currently running on port: {}\n", self.port)
     }
 
     pub fn get_tasks(&self) -> Result<Vec<(i64, Task)>> {

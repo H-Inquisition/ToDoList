@@ -7,12 +7,18 @@ use std::io::Write;
 use std::sync::{Arc, Mutex};
 use tokio::net::TcpListener;
 
+pub fn get_port() -> Result<i32> {
+    let mut input = String::new();
+    println!("Please enter the port number:");
+    std::io::stdin().read_line(&mut input).map_err(|_| Error::ReadLine("Failed to obtain a port number from a user input."))?;
+    let port = input.trim().parse().map_err(|_| Error::ReadLine("Invalid user input for a port number."))?;
+    Ok(port)
+}
+
 pub async fn start_server(address: &str, database_path: &str) -> Result<()> {
-    let state = Arc::new(Mutex::new(AppState::new(address, database_path)?));
+    let state = Arc::new(Mutex::new(AppState::new(database_path)?));
 
     let router = Router::new()
-        .route("/port", get(api::queries::port_query))
-        .with_state(state.clone())
         .route("/list_of_tasks", get(api::queries::list_of_tasks_query))
         .with_state(state.clone())
         .route("/create_task", post(api::commands::create_task_command))
@@ -34,7 +40,25 @@ pub async fn start_server(address: &str, database_path: &str) -> Result<()> {
         .map_err(|_| Error::Runner("An error has occurred during the server runtime."))
 }
 
-pub fn handle_error<T>(result: Result<T>) -> Result<()> {
+pub fn handle_user_input_result(result: Result<i32>) -> Result<String> {
+    match result {
+        Ok(value) => Ok(value.to_string()),
+        Err(error) => match error {
+            Error::ReadLine(message) => {
+                println!("{}", message);
+                let port_result = get_port();
+                handle_user_input_result(port_result)
+            }
+            _ => { 
+                log_error(&error)?;
+                let port_result = get_port();
+                handle_user_input_result(port_result)
+            }
+        }
+    }
+}
+
+pub fn handle_result<T>(result: Result<T>) -> Result<()> {
     if let Some(err) = result.as_ref().err() {
         log_error(err)?;
     }
@@ -58,7 +82,7 @@ pub mod tests {
     #[test]
     fn set_up_database_example() {
         let mut app_state =
-            AppState::new("0.0.0.0:3000", "example_database.db").unwrap();
+            AppState::new("example_database.db").unwrap();
 
         app_state
             .add_task("test_task_one".to_string(), Priority::Medium)

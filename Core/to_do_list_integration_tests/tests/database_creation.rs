@@ -7,7 +7,7 @@ use integration_tests::helpers::expected_sets;
 #[test]
 fn create_default_database_set_a_delete_update() {
     let mut app_state =
-        AppState::new(constants::TEST_PORT, constants::DATABASE_SET_A_FILENAME).unwrap();
+        AppState::new(constants::DATABASE_SET_A_FILENAME).unwrap();
 
     let second_expected_task_set = expected_sets::dataset_a_first_modification();
     let third_expected_task_set = expected_sets::dataset_a_second_modification();
@@ -53,7 +53,7 @@ fn create_default_database_set_a_delete_update() {
 #[test]
 fn create_default_set_b_delete_update_multiple() {
     let mut app_state =
-        AppState::new(constants::TEST_PORT, constants::DATABASE_SET_B_FILENAME).unwrap();
+        AppState::new(constants::DATABASE_SET_B_FILENAME).unwrap();
 
     let second_expected_task_set = expected_sets::dataset_b_first_modification();
     let third_expected_task_set = expected_sets::dataset_b_second_modification();
@@ -107,7 +107,7 @@ fn create_default_set_b_delete_update_multiple() {
 #[test]
 fn create_database_set_c() {
     let mut app_state =
-        AppState::new(constants::TEST_PORT, constants::DATABASE_SET_C_FILENAME).unwrap();
+        AppState::new(constants::DATABASE_SET_C_FILENAME).unwrap();
 
     let second_expected_task_set = expected_sets::dataset_c_first_modification();
     let third_expected_task_set = expected_sets::dataset_c_second_modification();
